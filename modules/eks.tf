@@ -3,9 +3,9 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.29"
+  cluster_version = var.cluster_version
 
-  cluster_endpoint_public_access  = true
+  cluster_endpoint_private_access  = true
 
   cluster_addons = {
     coredns = {
@@ -18,9 +18,9 @@ module "eks" {
       most_recent = true
     }
   }
-  vpc_id                   = "vpc-043038dbef4c9a40e"
-  subnet_ids               = ["subnet-0c0224566e63bf9b5", "subnet-0a48981f36fa2dee4", "subnet-0c0de02b38cc8144d"]
-  control_plane_subnet_ids = ["subnet-0c0224566e63bf9b5", "subnet-0a48981f36fa2dee4", "subnet-0c0de02b38cc8144d"]
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = module.vpc.private_subnets
+  control_plane_subnet_ids = module.vpc.private_subnets
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -31,10 +31,27 @@ module "eks" {
       min_size     = 1
       max_size     = 3
       desired_size = 2
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
 
       instance_types = ["t2.micro"]
       capacity_type  = "SPOT"
     }
   }
   enable_cluster_creator_admin_permissions = true
+}
+
+
+resource "aws_security_group" "worker_group_mgmt_one" {
+  name_prefix = "worker_group_mgmt_one"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "10.0.0.0/8",
+    ]
+  }
 }

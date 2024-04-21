@@ -15,3 +15,9 @@ variable "vpc_name" {
     description = "vpc name"
     default = "my_vpc"
 }
+
+variable "cluster_version" {
+    type = string
+    description = "k8s cluster version"
+    default = "1.29"
+}
