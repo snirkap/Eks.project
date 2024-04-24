@@ -24,15 +24,15 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["t2.micro"]
+    instance_types = ["t3.micro"]
   }
   eks_managed_node_groups = {
     example = {
       min_size     = 1
-      max_size     = 3
-      desired_size = 2
+      max_size     = 5
+      desired_size = 3
 
-      instance_types = ["t2.micro"]
+      instance_types = ["t3.micro"]
       capacity_type  = "SPOT"
     }
   }
