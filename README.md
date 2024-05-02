@@ -7,6 +7,7 @@
 6. create a secret with the access key and the secret accesskey of the user that you created for the secret store (kubectl create secret generic awssm-secret --from-literal=access-key=123456789 --from-literal=secret-access-key=123456789)
 7. deploy the secret store
 8. deploy the external secret store
+9. add hap and metrics-server for the deployment
 
 
  
