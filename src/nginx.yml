@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-secret-display
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-secret-display
+  template:
+    metadata:
+      labels:
+        app: nginx-secret-display
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        command: ["/bin/sh", "/config/start.sh"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: html
+          mountPath: /usr/share/nginx/html
+        env:
+        - name: SECRET_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-from-aws
+              key: password
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+      - name: nginx-conf
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+      - name: html
+        emptyDir: {}
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx-secret-display
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
