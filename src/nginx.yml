@@ -15,6 +15,13 @@ spec:
       containers:
       - name: nginx
         image: nginx:latest
+        resources:
+          requests:
+            cpu: "100m"   
+            memory: "100Mi"  
+          limits:
+            cpu: "200m"   
+            memory: "200Mi"
         command: ["/bin/sh", "/config/start.sh"]
         volumeMounts:
         - name: config-volume
