@@ -61,7 +61,8 @@ This project is designed to showcase a real-world DevOps scenario involving a Ku
 15. create a secret with the access key and the secret accesskey of the user that you created for the secret store (kubectl create secret generic awssm-secret --from-literal=access-key=123456789 --from-literal=secret-access-key=123456789)
 16. deploy the secret store
 17. deploy the external secret store
-18. add hap and metrics-server for the deployment
+18. deploy the nginx deployment and service
+19. add hap and metrics-server for the deployment
 
 
  
