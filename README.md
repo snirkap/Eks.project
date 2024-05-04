@@ -2,7 +2,7 @@
 ## Overview:
 This project is designed to showcase a real-world DevOps scenario involving a Kubernetes cluster hosted on Amazon EKS, incorporating industry-standard tools like the External Secrets Operator, AWS Load Balancer Controller, and Infrastructure as Code (IaC) management via Terraform. The architecture ensures secure, scalable, and efficient management of secrets and load balancing.
 ## Here you can see a diagram explaining the project:
-![eks_project drawio](https://github.com/snirkap/Eks.project/assets/120733215/bee4a226-1ac2-4b50-b58c-c510ec03d9e1)
+![eks_project drawio (1)](https://github.com/snirkap/Eks.project/assets/120733215/4626aad7-850f-45d1-810d-843739d274a5)
 ### Architecture Diagram Explanation:
 * **VPC:** The entire infrastructure is encapsulated within an AWS Virtual Private Cloud (VPC) to ensure network isolation.
 * **Kubernetes Cluster(EKS):** Hosts the application workloads with managed Kubernetes services.
