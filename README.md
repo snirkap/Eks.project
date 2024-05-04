@@ -22,14 +22,30 @@ This project is designed to showcase a real-world DevOps scenario involving a Ku
    * kubectl
    * git
 ### setup:
-1. git clone "https://github.com/snirkap/Eks.project.git"
-2. cd Eks.project
-3. configure to your aws account with the "aws configure" command.
-4. change in the eks.tf file: vpc id, subnet_ids, control_plane_subnet_ids.
-5. in the remote_state.tf file change: bucket to yours bucket name
-6. do the "terraform apply" command to deploy the eks cluster.  
-8. connect to the cluster with this command: aws eks --region us-east-1 update-kubeconfig --name my-cluster
-9. deploy aws load balancer controller:
+1. firts clone the repo:
+```
+git clone "https://github.com/snirkap/Eks.project.git"
+cd Eks.project
+```
+2. configure to your aws account:
+```
+aws configure
+```
+3. in the eks.tf file change:
+   * vpc id
+   * subnet_ids
+   * control_plane_subnet_ids
+4. in the remote_state.tf file change:
+   * bucket to yours bucket name
+5. deploy the eks cluster:
+```
+terraform apply  
+```
+6. connect to the cluster with this command:
+```
+aws eks --region us-east-1 update-kubeconfig --name my-cluster
+```
+7. deploy aws load balancer controller:
 ```
 1. curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
 
@@ -56,13 +72,33 @@ This project is designed to showcase a real-world DevOps scenario involving a Ku
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller 
 ```
-9. install the External Secrets Operator with this https://external-secrets.io/latest/introduction/getting-started/ 
-14. create a user with the role to read form the secret manager
-15. create a secret with the access key and the secret accesskey of the user that you created for the secret store (kubectl create secret generic awssm-secret --from-literal=access-key=123456789 --from-literal=secret-access-key=123456789)
-16. deploy the secret store
-17. deploy the external secret store
-18. deploy the nginx deployment and service
-19. add hap and metrics-server for the deployment
-
+8. create a secret in the secret manager called "AWS-SECRET-PASSWORD" with the key called "password"
+9. create a user with the role to read form the secret manager
+10. create a secret with the access key and the secret accesskey of the user that you created for the secret store
+```
+kubectl create secret generic awssm-secret --from-literal=access-key=123456789 --from-literal=secret-access-key=123456789
+```
+11. deploy External Secrets Operator:
+```
+kubectl apply -k "https://github.com/external-secrets/external-secrets//config/crds/bases?ref=v0.9.11"
+```
+12. deploy the secret store:
+```
+kubectl apply -f src/secret-store.yml
+```
+13. deploy the external secret store:
+```
+kubectl apply -f src/external-secret.yml
+```
+14. deploy the nginx deployment and service:
+```
+kubectl apply -f src/configmap.yml
+kubectl apply -f src/nginx.yml
+```
+15. deploy hap and metrics-server for the deployment
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl apply -f src/hpa.yml
+```
 
  
