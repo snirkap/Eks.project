@@ -16,13 +16,13 @@ This project is designed to showcase a real-world DevOps scenario involving a Ku
 * **Users:** Represent the clients or external users accessing the application hosted on the Kubernetes cluster.
 ## requirements:
 1. aws account
-2. installed in your local machine:
+2. Installed on your local machine:
    * awscli
    * eksctl
    * kubectl
    * git
 ### setup:
-1. firts clone the repo:
+1. ⁠first clone the repo:
 ```
 git clone "https://github.com/snirkap/Eks.project.git"
 cd Eks.project
