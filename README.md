@@ -86,7 +86,7 @@ kubectl apply -k "https://github.com/external-secrets/external-secrets//config/c
 ```
 kubectl apply -f src/secret-store.yml
 ```
-13. deploy the external secret store:
+13. deploy the external secret:
 ```
 kubectl apply -f src/external-secret.yml
 ```
